@@ -1,0 +1,56 @@
+custom_command: blocks
+conversion_factor: 16
+banknote_enabled: true
+withdrawl_item:
+  type: PAPER
+  name: "&cWithdrawl of %blocks% blocks"
+  lore:
+  - "Signed: %signer%"
+  - "Blocks: %blocks%"
+messages:
+  command_msgs:
+    invalid_arguments: "&cInvalid Arguments"
+    invalid_currency_type: "&cCurrency is either S for shards or B for blocks."
+    no_permission: "&bNo permission"
+    player_not_found: "&bPlayer not found. Try running this command in the proxy if the player is offline!"
+  balance:
+    self: "&bUr balance is: %blocks% blocks, %shards% shards"
+    other: "&b%player%'s balance is: %blocks% blocks, %shards% shards"
+  banknote:
+    disabled: "&bBanknote is disabled here!"
+    redeemed: "&bRedeemed banknote for %blocks% blocks"
+    received_player_money_from_banknote: "&bYou were given %blocks% blocks by %player%"
+  add:
+    not_a_number: "&cYou need to enter a number for the last argument"
+    success_sender:
+      blocks: "&bYou have given %player% %blocks% blocks. They now have %newblocks% blocks."
+      cubes: "&bYou have given %player% %cubes% cubes. They now have %newcubes% cubes."
+    success_receiver:
+      blocks: "&bYou have received %blocks% blocks. You now have %newblocks% blocks."
+      cubes: "&bYou have received %cubes% cubes. You now have %newcubes% cubes."
+  remove:
+    not_a_number: "&cYou need to enter a number for the last argument"
+    success_sender:
+      blocks: "&bYou have given %player% %blocks% blocks. They now have %newblocks% blocks."
+      cubes: "&bYou have given %player% %cubes% cubes. They now have %newcubes% cubes."
+    success_receiver:
+      blocks: "&bYou have received %blocks% blocks. You now have %newblocks% blocks."
+      cubes: "&bYou have received %cubes% cubes. You now have %newcubes% cubes."
+  withdraw:
+    not_a_number: "&cYour withdraw value needs to be a number."
+    not_enough_blocks: "&cYou cannot withdraw %towithdraw% blocks. You only have %availableblocks% blocks."
+    success: "&bYou withdrew %blocks% blocks. You now have %newblocks% blocks."
+  commandAdmin:
+  - "== /blocks admin =="
+  - "/blocks add <player> <shards> - Blah blah"
+  - "/blocks remove <player> <shards> - Blah blah"
+  command:
+  - "== /blocks =="
+  - "/blocks withdraw <blocks> - Blah blah players only"
+  - "/blocks balance - Check ur balance"
+mysql:
+  user: root
+  password: 'PkG9L^@6b89?rwFZ'
+  host: localhost
+  port: '3306'
+  databaseName: proxy_blocks

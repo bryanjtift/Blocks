@@ -1,0 +1,8 @@
+Permissions:
+  blocks.admin      Allows admin commands
+  blocks.user       Allows user to use the commands /blocks withdraw
+
+Commands:
+  /blocks add/remove <user> <amount> <B/C>
+  /blocks withdraw <amount>
+  /blocks balance [user]
