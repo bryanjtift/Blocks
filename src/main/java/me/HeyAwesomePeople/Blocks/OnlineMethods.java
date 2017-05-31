@@ -3,11 +3,11 @@ package me.HeyAwesomePeople.Blocks;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-class OnlineMethods {
+public class OnlineMethods {
 
     private Blocks plugin;
 
-    OnlineMethods(Blocks plugin) {
+    public OnlineMethods(Blocks plugin) {
         this.plugin = plugin;
     }
 

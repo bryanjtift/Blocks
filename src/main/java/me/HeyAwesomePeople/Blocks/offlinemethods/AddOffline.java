@@ -35,10 +35,10 @@ public class AddOffline extends BukkitRunnable {
         if (target == null) return; //TODO PLAYER NOT FOUND
 
         if (plugin.redis.isInCache(target)) {
-            if (type.equalsIgnoreCase("C")) {
+            if (type.equalsIgnoreCase("B")) {
                 String msgForTarget = plugin.blockMethods.addBlocks(receiver, amountToAdd, true);
             }
-            if (type.equalsIgnoreCase("B")) {
+            if (type.equalsIgnoreCase("C")) {
                 String msgForTarget = plugin.blockMethods.addCubes(receiver, amountToAdd, true);
             }
             reportSuccess(plugin.redis.getBlocks(target), plugin.redis.getCubes(target));
@@ -48,8 +48,14 @@ public class AddOffline extends BukkitRunnable {
                 Integer[] data = plugin.mysql.retrieveData(target);
                 if (data[2] == 0) return; //TODO PLAYER NOT FOUND
                 debugMsg("QUERIED MYSQL");
-                plugin.mysql.uploadData(target, data[0], data[1]);
-                reportSuccess(data[0], data[1]);
+                if (type.equalsIgnoreCase("B")) {
+                    plugin.mysql.uploadData(target, data[0] + amountToAdd, data[1]);
+                    reportSuccess(data[0] + amountToAdd, data[1]);
+                }
+                if (type.equalsIgnoreCase("C")) {
+                    plugin.mysql.uploadData(target, data[0], data[1] + amountToAdd);
+                    reportSuccess(data[0], data[1] + amountToAdd);
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }

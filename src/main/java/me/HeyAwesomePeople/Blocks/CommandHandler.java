@@ -2,6 +2,7 @@ package me.HeyAwesomePeople.Blocks;
 
 import me.HeyAwesomePeople.Blocks.offlinemethods.AddOffline;
 import me.HeyAwesomePeople.Blocks.offlinemethods.CheckBalanceOffline;
+import me.HeyAwesomePeople.Blocks.offlinemethods.RemoveOffline;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -74,6 +75,10 @@ public class CommandHandler implements Listener {
     }
 
     private void addToPlayer(Player p, String username, String amountToAdd, String type) {
+        if (!p.hasPermission("blocks.admin")) {
+            p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("messages.command_msgs.no_permission")));
+            return;
+        }
         if (Utils.isInt(amountToAdd)) {
             p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("messages.add.not_a_number")));
             return;
@@ -98,6 +103,10 @@ public class CommandHandler implements Listener {
     }
 
     private void removeFromPlayer(Player p, String username, String amountToRemove, String type) {
+        if (!p.hasPermission("blocks.admin")) {
+            p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("messages.command_msgs.no_permission")));
+            return;
+        }
         if (Utils.isInt(amountToRemove)) {
             p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("messages.add.not_a_number")));
             return;
@@ -105,7 +114,7 @@ public class CommandHandler implements Listener {
         if (Bukkit.getPlayer(username) == null) {
             if (type.equalsIgnoreCase("C")
                     || type.equalsIgnoreCase("B")) {
-
+                new RemoveOffline(plugin, p, username, Integer.parseInt(amountToRemove), type);
             } else {
                 p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("messages.command_msgs.invalid_currency_type")));
             }
@@ -146,47 +155,10 @@ public class CommandHandler implements Listener {
                     addToPlayer(p, args[2], args[3], args[4]);
                 }
                 if (args[1].equalsIgnoreCase("remove")) {
-
+                    removeFromPlayer(p, args[2], args[3], args[4]);
                 }
-            }
-
-
-            if (args.length == 3) {
-            } else if (args.length == 5) {
-                if (!p.hasPermission("blocks.admin")) {
-                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("messages.noPermission")));
-                    return;
-                }
-                else if (args[1].equalsIgnoreCase("remove")) {
-                    if (Utils.isInt(args[3])) {
-                        if (Bukkit.getPlayer(args[2]) == null) {
-                            if (args[4].equalsIgnoreCase("F")) {
-                                plugin.removeOfflinePlayerShards(p, args[2], Integer.parseInt(args[3]));
-                            } else if (args[4].equalsIgnoreCase("B")) {
-                                plugin.removeOfflinePlayerBlocks(p, args[2], Integer.parseInt(args[3]));
-                            } else {
-                                p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("messages.invalid_currency_type")));
-                            }
-                        } else {
-                            if (args[4].equalsIgnoreCase("F")) {
-                                plugin.blockMethods.removeShards(Bukkit.getPlayer(args[2]), p, Integer.parseInt(args[3]), true);
-                            } else if (args[4].equalsIgnoreCase("B")) {
-                                plugin.blockMethods.removeBlocks(Bukkit.getPlayer(args[2]), p, Integer.parseInt(args[3]), true);
-                            } else {
-                                p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("messages.invalid_currency_type")));
-                            }
-                        }
-                    } else {
-                        p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("messages.remove.not_a_number")));
-                    }
-                } else {
-                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("messages.invalid_arguments")));
-                }
-            } else {
-                p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("messages.invalid_arguments")));
             }
         }
-
     }
 
 }
